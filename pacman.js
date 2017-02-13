@@ -1,12 +1,46 @@
 // Setup initial game stats
 var score = 0;
 var lives = 2;
+var powerPellets = 4;
 
 
 // Define your ghosts here
 
+var inky = {
+  menu_option: '1',
+  name: 'Inky',
+  colour: 'Red',
+  character: 'Shadow',
+  edible: false
+};
+
+var blinky = {
+  menu_option: '2',
+  name: 'Blinky',
+  colour: 'Cyan',
+  character: 'Speedy',
+  edible: false
+};
+
+var pinky = {
+  menu_option: '3',
+  name: 'Pinky',
+  colour: 'Pink',
+  character: 'Bashful',
+  edible: false
+};
+
+var clyde = {
+  menu_option: '4',
+  name: 'Clyde',
+  colour: 'Ora ge',
+  character: 'Pokey',
+  edible: false
+};
+
 // replace this comment with your four ghosts setup as objects
 
+var ghosts = ['Inky', 'Blinky', 'Pinky', 'Cyle']
 
 // Draw the screen functionality
 function drawScreen() {
@@ -23,12 +57,17 @@ function clearScreen() {
 }
 
 function displayStats() {
-  console.log('Score: ' + score + '     Lives: ' + lives);
+  console.log('Score: ' + score + '     Lives: ' + lives + '    Power-Pellets: ' + powerPellets );
 }
 
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  console.log('(p) Eat Power-Pellet');
+  console.log('(1) Eat Inky');
+  console.log('(2) Eat Blinky');
+  console.log('(3) Eat Pinky');
+  console.log('(4) Eat Clyde');
   console.log('(q) Quit');
 }
 
@@ -44,6 +83,27 @@ function eatDot() {
   score += 10;
 }
 
+function gameOver() {
+  if (lives < 0) {
+    process.exit();
+  }
+}
+
+function eatGhost(ghost){
+  console.log('\nThe ' + ghost.colour + ' ghost ' + ghost.name + ' killed PacMan');
+  lives -= 1;
+
+}
+
+function eatPowerPellet(ghost){
+  console.log('\nChomp!');
+  score += 50;
+  powerPellets -= 1;
+  if (score >= 50) {
+    ghost.edible => true
+  }
+}
+
 
 // Process Player's Input
 function processInput(key) {
@@ -55,11 +115,28 @@ function processInput(key) {
     case 'd':
       eatDot();
       break;
+    case 'p':
+      eatPowerPellet();
+      break;
+    case '1':
+      eatGhost(inky);
+      break;
+    case '2':
+      eatGhost(blinky);
+      break;
+    case '3':
+      eatGhost(pinky);
+      break;
+    case '4':
+      eatGhost(clyde);
+      break;
     default:
       console.log('\nInvalid Command!');
   }
+  {
+    gameOver()
+  }
 }
-
 
 //
 // YOU PROBABLY DON'T WANT TO CHANGE CODE BELOW THIS LINE
