@@ -11,7 +11,7 @@ var inky = {
   name: 'Inky',
   colour: 'Red',
   character: 'Shadow',
-  edible: false
+  edible: 'inedible'
 };
 
 var blinky = {
@@ -19,7 +19,7 @@ var blinky = {
   name: 'Blinky',
   colour: 'Cyan',
   character: 'Speedy',
-  edible: false
+  edible: 'inedible'
 };
 
 var pinky = {
@@ -27,7 +27,7 @@ var pinky = {
   name: 'Pinky',
   colour: 'Pink',
   character: 'Bashful',
-  edible: false
+  edible: 'inedible'
 };
 
 var clyde = {
@@ -35,12 +35,12 @@ var clyde = {
   name: 'Clyde',
   colour: 'Ora ge',
   character: 'Pokey',
-  edible: false
+  edible: 'inedible'
 };
 
 // replace this comment with your four ghosts setup as objects
 
-var ghosts = ['Inky', 'Blinky', 'Pinky', 'Cyle']
+var ghosts = ['Inky', 'Blinky', 'Pinky', 'Cyle'];
 
 // Draw the screen functionality
 function drawScreen() {
@@ -64,10 +64,10 @@ function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
   console.log('(p) Eat Power-Pellet');
-  console.log('(1) Eat Inky');
-  console.log('(2) Eat Blinky');
-  console.log('(3) Eat Pinky');
-  console.log('(4) Eat Clyde');
+  console.log('(1) Eat Inky (' + inky.edible +') ')
+  console.log('(2) Eat Blinky (' + blinky.edible +') ')
+  console.log('(3) Eat Pinky (' + pinky.edible +') ')
+  console.log('(4) Eat Clyde (' + clyde.edible +') ')
   console.log('(q) Quit');
 }
 
@@ -79,40 +79,47 @@ function displayPrompt() {
 
 // Menu Options
 function eatDot() {
-  if (dots < 1) {
-    console.log('Pac-man, you ate all the dots');
-  }
-  else {
-    console.log('\nChomp!');
+  console.log('\nChomp!');
   score += 10;
-  dots--;
-  }
-}
-
-function gameOver() {
-  if (lives < 0) {
-    console.log ('Pac-Man has been terminated')
-    process.exit();
-  }
 }
 
 function eatGhost(ghost){
-  console.log('\nThe ' + ghost.colour + ' ghost ' + ghost.name + ' killed PacMan');
-  lives -= 1;
+  if (ghost.edible === false) {
+    ghost.edible = 'inedible'
+    console.log('\nThe ' + ghost.colour + ' ghost ' + ghost.name + ' killed PacMan');
+    lives -= 1;
+    gameOver();
+  }
+  else {
+    console.log('\nPac-man has eaten ' + ghost.colour + ' ghost ' + ghost.name + ' ');
+    score += 200;
+    ghost.edible = false;
+    ghost.edible = 'inedible'
+  }
+}
+
+
+function gameOver() {
+  if (lives < 0) {
+    console.log ('Pac-Man has been murdered')
+    process.exit();
+  }
 }
 
 function eatPowerPellet(){
   console.log('\nChomp!');
   score += 50;
   powerPellets -= 1;
-}
-
-function edibleGhost(ghost) {
-  if (score >= 50) {
-      ghost.edible = true;
-    }
+  if (score > 0) {
+    inky.edible = 'edible'
+    blinky.edible = 'edible'
+    pinky.edible = 'edible'
+    clyde.edible = 'edible'
   }
-
+  else {
+    console.log('No Power-Pellets Left!');
+  }
+}
 
 
 // Process Player's Input
