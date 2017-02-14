@@ -79,12 +79,19 @@ function displayPrompt() {
 
 // Menu Options
 function eatDot() {
-  console.log('\nChomp!');
+  if (dots < 1) {
+    console.log('Pac-man, you ate all the dots');
+  }
+  else {
+    console.log('\nChomp!');
   score += 10;
+  dots--;
+  }
 }
 
 function gameOver() {
   if (lives < 0) {
+    console.log ('Pac-Man has been terminated')
     process.exit();
   }
 }
@@ -92,17 +99,20 @@ function gameOver() {
 function eatGhost(ghost){
   console.log('\nThe ' + ghost.colour + ' ghost ' + ghost.name + ' killed PacMan');
   lives -= 1;
-
 }
 
-function eatPowerPellet(ghost){
+function eatPowerPellet(){
   console.log('\nChomp!');
   score += 50;
   powerPellets -= 1;
-  if (score >= 50) {
-    ghost.edible => true
-  }
 }
+
+function edibleGhost(ghost) {
+  if (score >= 50) {
+      ghost.edible = true;
+    }
+  }
+
 
 
 // Process Player's Input
@@ -132,9 +142,6 @@ function processInput(key) {
       break;
     default:
       console.log('\nInvalid Command!');
-  }
-  {
-    gameOver()
   }
 }
 
